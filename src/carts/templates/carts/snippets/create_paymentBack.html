@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<div class="row">
+  <div class="col-md-12">
+    <h3>Escoja su Método de Pago</h3>
+    <hr>
+  </div>
+</div>
+
+<div class="row">
+
+
+  <form class="mx-auto" method='POST' action='{{ action_url }}'> {% csrf_token %}
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 my-2 mx-auto payment">
+      <input class="choose_payment" type="radio" name="payment_method" value="tarjeta">Pagar con Tarjeta en su local o vivienda<br>
+      <input class="choose_payment" type="radio" name="payment_method" value="efectivo">Pago en Efectivo<br>
+    </div>
+    {% if next_url %}
+    <input type='hidden' name='next' value='{{ next_url }}' />
+    {% endif %}
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12 my-2 mx-auto choose_tarjeta hideElement">
+      <h5 class="">Tarjeta</h5>
+      <i class="fab fa-cc-mastercard fa-3x"></i><i class="fab fa-cc-visa fa-3x"></i>
+      <p>Pague con su tarjeta en el sitio de entrega (Casa o Negocio).</p>
+      <input id='tarjeta' type="hidden" name="payment_method" value='tarjeta'/>
+      <button type='submit' class='btn btn-success payment_tarjeta'>Pagar</button>
+    </div>
+
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12 my-2 mx-auto choose_efectivo hideElement">
+      <h5 class="">Efectivo</h5>
+      <i class="far fa-money-bill-alt fa-3x"></i>
+      <p>Pague con efectivo en el sitio de entrega (Casa o Negocio).</p>
+      <input id='efectivo' type="hidden" name="payment_method" value='efectivo'/>
+      <button type='submit' class='btn btn-info payment_efectivo'>Pagar</button>
+    </div>
+  </form>
+</div>
+
+
+
+{% endblock %}

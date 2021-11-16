@@ -1,0 +1,30 @@
+{% load i18n %}
+
+<div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel"> {% trans "Contáctenos" %} </h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <span class='leave_capture' show='false'></span>
+        <form class="contactForm" method="POST" action="{% url 'contact-api' %}"> {% csrf_token %}
+          <label class="control-label" for="id_fullname"> {% trans "Nombre Completo:" %} </label>
+          <input type="text" name="fullname" class="form-control contactInfo" placeholder=" {% trans "Su Nombre" %}" id="id_fullname">
+          <label for="id_email"> {% trans "Correo:" %} </label>
+          <input type="email" name="email" class="form-control contactInfo" placeholder="{% trans "Su Correo" %}" id="id_email">
+          <label for="id_message">{% trans "Mensaje:" %}</label>
+          <textarea name="message" cols="20" rows="5" class="form-control contactInfo" placeholder=" {% trans "Su Mensaje" %}" id="id_message"></textarea>
+          <input class="btn btn-primary" type="submit" name="submit" value="{% trans "Enviar" %} ">
+          <input type="button" class="btn btn-secondary" data-dismiss="modal" value="{% trans "Cerrar" %} "></input>
+        </form>
+      </div>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>

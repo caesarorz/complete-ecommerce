@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+
+{% block content%}
+<div class="row">
+
+
+  <div class="col-12">
+    <h4>{% trans "Tu Cuenta" %}</h4>
+    {% trans "Correo:" %} {{ request.user }}
+    <hr>
+  </div>
+
+  <div class="col-12 col-md-3 my-2">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Información Personal</h5>
+        <div class="list-group">
+          <a href="{% url 'account:user-update' %}" class="list-group-item">Ver o Cambiar</a>    <!-- cambiar telefono, nombre, direcion envio -->
+          <a href="" class="list-group-item">Correo Electrónico</a>
+          <a href="{% url 'password_change' %}" class="list-group-item">Contraseña (cambiar)</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 col-md-3 my-2">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Facturación</h5>
+        <div class="list-group">
+          <a href="#" class="list-group-item">Dirección de Facturación</a>
+          <a href="{% url 'billing-payment-method' %}" class="list-group-item">Métodos de Pago (tarjeta)</a>
+          <a href="{% url 'orders:list' %}" class="list-group-item">Ver Órdenes</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 col-md-3 my-2">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Notifications</h5>
+        <div class="list-group">
+          <a href="{% url 'marketing-pref' %}" class="list-group-item">Subscripciones</a>
+          <a href="#" class="list-group-item">Transactional Email</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 col-md-3 my-2">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Historial</h5>
+        <div class="list-group">
+          <a href="#" class="list-group-item">Productos Vistos</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 col-md-3 my-2">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Ayuda</h5>
+          <div class="list-group">
+            <a href="{% url 'about' %}" class="list-group-item">Nosotros</a>
+            <a href="{% url 'contact' %}" class="list-group-item">Contáctenos</a>
+          </div>
+        </div>
+      </div>
+  </div>
+
+</div>
+
+
+{% endblock %}

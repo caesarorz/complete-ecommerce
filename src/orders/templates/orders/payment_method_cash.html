@@ -1,0 +1,18 @@
+{% block content %}
+
+<h3>{% trans "Método de Pago: Efectivo" %}</h3>
+<hr/>
+
+<form method='POST' action='{{ action_url }}'>{% csrf_token %}
+  {% if next_url %}
+    <input type='hidden' name='next' value='{{ next_url }}' />
+  {% endif %}
+    <p>{% trans "Total a pagar:" %} {{ object.total }}</p>
+    <label>
+      {% trans "Digitar el monto con el que va a pagar:" %} <input type="number" name="amount"  placeholder="00000.00">
+    </label>
+    <button type='submit' class='btn btn-success'>{% trans "Siguiente" %}</button>
+
+</form>
+
+{% endblock %}

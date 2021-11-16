@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+{% get_current_language as LAN %}
+
+<div class="row">
+  <div class="col-lg-12 my-1">
+    <h3>{% if LAN == "es" %} {{ object.title }} {% else %} {{ object.en_title }} {% endif %} </h3>
+    <h4>{% if LAN == "es" %} {{ object.description }} {% else %} {{ object.en_description }} {% endif %} </h4>
+    <hr>
+  </div>
+
+  {% for proc in products %}
+    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-12 my-2 mx-auto" id="cardOver">
+      {% include 'products/snippets/card_alter.html' with instance=proc price=True %}
+    </div>
+  {% endfor %}
+
+</div>
+{% endblock %}

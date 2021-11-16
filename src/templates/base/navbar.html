@@ -1,0 +1,166 @@
+{% load static %}
+{% load i18n %}
+
+{% url 'home' as home_url %}
+{% url 'about' as about_url %}
+{% url 'contact' as contact_url %}
+{% url 'categories:category_list' as category_list_url %}
+{% url 'login' as login_url %}
+{% url 'logout' as logout_url %}
+{% url 'register' as register_url %}
+{% url 'account:home' as account_url %}
+{% url 'orders:list' as orders_url %}
+{% url 'cart-cbv' as cart_url %}
+
+<nav class="mynavbar navbar navbar-expand-lg navbar-dark container-fluid top-fixed" id="brandNav">
+
+  <div class="container">
+      <a class="navbar-brand" href="{{ home_url }}">
+        <img src="{% static 'img/coopepromar2.png' %}" alt="logo">
+      </a>
+      <div class="collapse navbar-collapse" id="navbarToggleExternalContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item {% if request.path == home_url %}active{% endif %}">
+            <a class="mynavlink nav-link"id="navStyle"  href="{{ home_url }}"><i class="fas fa-home"></i> {% trans "Inicio" %} <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item {% if request.path == category_list_url %}active{% endif %}">
+            <a href="{{ about_url }}" id="navStyle" class="mynavlink nav-link li-font"><i class="fas fa-info"></i> {% trans "Nosotros" %} </a>
+          </li>
+          <li class="nav-item {% if request.path == category_list_url %}active{% endif %}">
+            <a href="#" id="navStyle" class="mynavlink nav-link" data-toggle="modal" data-target="#contactModal" data-whatever="@mdo"><i class="far fa-envelope"></i> {% trans "Contáctenos" %} </a>
+          </li>
+          <li class="nav-item">
+            <form class="langForm" action="{% url 'set_language' %}" method="POST">{% csrf_token %}
+              <input type="hidden" name="text" value="{{ redirect_to }}">
+              <div class="input-group">
+                <select class="custom-select" id="inputGroupSelect04" name="language" aria-label="Example select with button addon">
+                  {% get_available_languages as LANGUAGES %}
+                  {% get_language_info_list for LANGUAGES as languages %}
+                  {% get_current_language as LAN %}
+                  {% for language in languages %}
+                  <option value="{{ language.code }}" {% if language.code == LAN %} selected {% endif %}>
+                    {{ language.code|title }}
+                  </option>
+                  {% endfor %}
+                </select>
+                  {% comment %} {% get_available_languages as LANGUAGES %}
+                  {% get_language_info_list for LANGUAGES as languages %}
+                  {% get_current_language as LAN %}
+                  {% for language in languages %}
+                    <a href="#" class="{% if language.code == LAN %}active{% else %}{% endif %} nav-link mynavlink" id="navStyle"> {{ language.code|title }}</a>
+                  {% endfor %} {% endcomment %}
+              </div>
+            </form>
+          </li>
+
+        {% if request.user.is_authenticated %}
+          {% comment %} <li class="nav-item">
+            <a class="mynavlink nav-link li-font" id="navStyle" href="{{ account_url }}"> {% trans 'Hola' %}
+            {% if request.user.full_name %}
+            {{ request.user.full_name }} <!--Account-->
+            {% else %}
+            {{ request.user.email }}
+            {% endif %} </a>
+          </li> {% endcomment %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navStyle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="{{ account_url }}">
+                <i class="fas fa-user"></i>
+                {% if request.user.full_name %}
+                  {{ request.user.full_name }} <!--Account-->
+                {% else %}
+                  {{ request.user.email }}
+                {% endif %}         
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item {% if request.path == account_url %}active{% endif %}" href="{{ account_url }}">{% trans 'Ver Cuenta' %} </a><!--Home-->
+              <a class="dropdown-item {% if request.path == orders_url %}active{% endif %}" href="{{ orders_url }}#billing">{% trans 'Órdenes' %} </a><!--Billing-->
+              <a class="dropdown-item" href="">{% trans 'Historial' %} </a><!--History-->
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="{{ logout_url }}">{% trans 'Salir' %} </a>
+            </div><!--logout-->
+          </li>
+          {% else %}
+            <li class="nav-item {% if request.path == register_url %}active{% endif %}">
+              <a href="#" id="navStyle" class="mynavlink nav-link li-font" data-toggle="modal" data-target="#registerModal" data-whatever="@mdo"><i class="fas fa-user-plus"></i> {% trans 'Registrarse' %} </a>
+            </li>
+            <li class="nav-item {% if request.path == login_url %}active{% endif %} left">
+              <a href="#" id="navStyle" class="mynavlink nav-link li-font" data-toggle="modal" data-target="#loginModal" data-whatever="@mdo"><i class="fas fa-sign-in-alt"></i> {% trans 'Entrar' %} </a>
+            </li>
+          {% endif %}
+        </ul>
+      </div>
+      <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item {% if request.path == home_url %}active{% endif %}">
+            <a class="mynavlink nav-link"id="navStyle"  href="{{ home_url }}"><i class="fas fa-home"></i> {% trans "Inicio" %} <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item {% if request.path == category_list_url %}active{% endif %}">
+            <a href="{{ about_url }}" id="navStyle" class="mynavlink nav-link li-font"><i class="fas fa-info"></i> {% trans "Nosotros" %} </a>
+          </li>
+          <li class="nav-item {% if request.path == category_list_url %}active{% endif %}">
+            <a href="#" id="navStyle" class="mynavlink nav-link" data-toggle="modal" data-target="#contactModal" data-whatever="@mdo"><i class="far fa-envelope"></i> {% trans "Contáctenos" %} </a>
+          </li>
+          <li class="nav-item">
+            <form class="langForm" action="{% url 'set_language' %}" method="POST">{% csrf_token %}
+              <input type="hidden" name="text" value="{{ redirect_to }}">
+              <div class="input-group">
+                <select class="custom-select" id="inputGroupSelect04" name="language" aria-label="Example select with button addon">
+                  {% get_available_languages as LANGUAGES %}
+                  {% get_language_info_list for LANGUAGES as languages %}
+                  {% get_current_language as LAN %}
+                  {% for language in languages %}
+                  <option value="{{ language.code }}" {% if language.code == LAN %} selected {% endif %}>
+                    {{ language.code }}
+                  </option>
+                  {% endfor %}
+                </select>
+                  {% comment %} {% get_available_languages as LANGUAGES %}
+                  {% get_language_info_list for LANGUAGES as languages %}
+                  {% get_current_language as LAN %}
+                  {% for language in languages %}
+                    <a href="#" class="{% if language.code == LAN %}active{% else %}{% endif %} nav-link mynavlink" id="navStyle"> {{ language.code|title }}</a> 
+                  {% endfor %} {% endcomment %}
+              </div>
+            </form>
+          </li>
+
+        {% if request.user.is_authenticated %}
+          {% comment %} <li class="nav-item">
+            <a class="mynavlink nav-link li-font" id="navStyle" href="{{ account_url }}"> {% trans 'Cuenta' %}
+            {% if request.user.full_name %}
+            {{ request.user.full_name }} <!--Account-->
+            {% else %}
+            {{ request.user.email }}
+            {% endif %} </a>
+          </li> {% endcomment %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navStyle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="{{ account_url }}">
+              <i class="fas fa-user"></i>
+              {% if request.user.full_name %}
+                {{ request.user.full_name }} <!--Account-->
+              {% else %}
+                {{ request.user.email }}
+              {% endif %} 
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item {% if request.path == account_url %}active{% endif %}" href="{{ account_url }}">{% trans 'Ver Cuenta' %} </a><!--Home-->
+              <a class="dropdown-item {% if request.path == orders_url %}active{% endif %}" href="{{ orders_url }}#billing">{% trans 'Órdenes' %} </a><!--Billing-->
+              <a class="dropdown-item" href="">{% trans 'Historial' %} </a><!--History-->
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="{{ logout_url }}">{% trans 'Salir' %} </a>
+            </div><!--logout-->
+          </li>
+          {% else %}
+            <li class="nav-item {% if request.path == register_url %}active{% endif %}">
+              <a href="#" id="navStyle" class="mynavlink nav-link li-font" data-toggle="modal" data-target="#registerModal" data-whatever="@mdo"><i class="fas fa-user-plus"></i> {% trans 'Registrarse' %} </a>
+            </li>
+            <li class="nav-item {% if request.path == login_url %}active{% endif %}">
+              <a href="#" id="navStyle" class="mynavlink nav-link li-font" data-toggle="modal" data-target="#loginModal" data-whatever="@mdo"><i class="fas fa-sign-in-alt"></i> {% trans 'Entrar' %} </a>
+            </li>
+          {% endif %}
+        </ul>
+      </div>
+      <span id="menu" style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
+  </div>
+</nav>

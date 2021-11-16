@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block content%}
+  {{ request.user }}
+<div class="row">
+<div class="col-12">
+  <h1>Tu Cuenta</h1><!--Account-->
+  <hr/>
+</div>
+<div class="col-12 col-md-3 my-3">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Ayuda</h5> <!--Support-->
+      <div class="list-group">
+        <a href="{% url 'contact' %}" class="list-group-item">Contacto</a> <!-- Contact -->
+        <a href="{% url 'about' %}" class="list-group-item">Acerca</a> <!-- About -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="col-12 col-md-3 my-3" id='billing'>
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Facturación</h5> <!-- Billing -->
+      <div class="list-group">
+        <a href="{% url 'orders:list' %}" class="list-group-item">Órdenes</a> <!--orders-->
+        <a href="{% url 'billing-payment-method' %}" class="list-group-item">Métodos de Pago</a> <!--payment method-->
+        <a href="{% url 'about' %}" class="list-group-item">Direcciones</a> <!--addresses-->
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="col-12 col-md-3 my-3">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Detalles Cuenta</h5> <!-- Account Details -->
+      <div class="list-group">
+        <a href="{% url 'account:user-update' %}" class="list-group-item">Actualizar Perfil</a> <!--Update Details-->
+        <a href="{% url 'password_change' %}" class="list-group-item">Cambiar Contraseña</a> <!--Change Password-->
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="col-12 col-md-3 my-3">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Preferencias</h5> <!-- Preferences -->
+      <div class="list-group">
+        <a href="{% url 'marketing-pref' %}" class="list-group-item">Mercadeo Correo Electrónico</a> <!-- Email marketing -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="col-12 col-md-3 my-3">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Historial</h5> <!-- History -->
+      <div class="list-group">
+        <a href="{% url 'account:user-product-history' %}" class="list-group-item">Productos Vistos</a> <!--Products Viewed-->
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+{% endblock %}

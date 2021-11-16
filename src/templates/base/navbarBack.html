@@ -1,0 +1,91 @@
+{% load static %}
+
+{% url 'home' as home_url %}
+{% url 'contact' as contact_url %}
+{% url 'categories:category_list' as category_list_url %}
+{% url 'login' as login_url %}
+{% url 'logout' as logout_url %}
+{% url 'register' as register_url %}
+{% url 'account:home' as account_url %}
+{% url 'orders:list' as orders_url %}
+{% url 'cart-cbv' as cart_url %}
+
+<nav class="mynavbar navbar navbar-expand-lg navbar-light">
+  <a class="navbar-brand" href="{{ home_url }}">
+    <img src="{% static 'img/logo.png' %}" alt="logo">
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item {% if request.path == home_url %}active{% endif %}">
+        <a class="mynavlink nav-link" href="{{ home_url }}">Inicio <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item {% if request.path == category_list_url %}active{% endif %}">
+        <button type="button" class="btn btn-primary ml-1" id="contact" data-toggle="modal" data-target="#contactModal">Contact Us!</button>
+      </li>
+      <li class="nav-item {% if request.path == category_list_url %}active{% endif %}">
+        <a class="mynavlink nav-link" href="{{ home_url }}#categories">Productos</a>
+      </li>
+    </ul>
+
+    {% if request.user.is_authenticated %}
+    <ul class="navbar-nav">
+      <li class="nav-item dropdown">
+        Hola
+          {% if request.user.full_name %}
+            {{ request.user.full_name }} <!--Account-->
+          {% else %}
+            {{ request.user.email }}
+          {% endif %}
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="{{ account_url }}">
+          Ver Cuenta
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item {% if request.path == account_url %}active{% endif %}" href="{{ account_url }}">Ver Cuenta</a><!--Home-->
+          <a class="dropdown-item {% if request.path == orders_url %}active{% endif %}" href="{{ orders_url }}#billing">Órdenes</a><!--Billing-->
+          <a class="dropdown-item" href="">Historial</a><!--History-->
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="{{ logout_url }}">Salir</a>
+        </div><!--logout-->
+      </li>
+      </ul>
+
+      {% else %}
+
+      <ul class="navbar-nav">
+        <li class="nav-item {% if request.path == register_url %}active{% endif %}">
+          <button type="button" id="registerBtn" class="btn btn-primary" data-toggle="modal" data-target="#registerModal" data-whatever="@mdo">Register</button>
+        </li> <!--Register-->
+        <li class="nav-item {% if request.path == register_url %}active{% endif %}">
+          <a class="nav-link" href="{{ register_url }}">Registrarse</a>
+        </li><!--Register-->
+
+        <!---{# <li class="nav-item {% if request.path == login_url %}active{% endif %} left">
+          <button id="loginBtn" type="button" class="btn btn-primary" data-toggle="modal" data-target="loginModal">Entrar</button>
+        </li> #}-->
+        <li class="nav-item {% if request.path == login_url %}active{% endif %} left">
+            <a class="mynavlink nav-link" href="{{ login_url }}">Entrar</a>
+        </li>
+        <li class="nav-item {% if request.path == login_url %}active{% endif %} left">
+          <button type="button" id="loginBtn" class="btn btn-primary" data-toggle="modal" data-target="#loginModal" data-whatever="@mdo">Entrar</button>
+        </li>
+      </ul>
+
+
+      {% endif %}
+      <ul class="navbar-nav left">
+        <li class="nav-item {% if request.path == cart_url %}active{% endif %}">
+          <a class="nav-link" href="{{ cart_url }}">
+            <i class="fas fa-shopping-cart"></i>
+            <span id="cart-count-badge" class="navbar-cart-count">{{ request.session.cart_item_count }}</span>
+          </a>
+        </li>
+
+    </ul>
+
+
+  </div>
+</nav>

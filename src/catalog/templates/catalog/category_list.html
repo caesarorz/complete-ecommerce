@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+  <h3>Categorias Productos</h3>
+
+
+
+{% for obj in object_list %}
+  <!-- <a href="{{ obj.get_absolute_url }}">  </a><br> -->
+  {% include 'catalog/snippets/category.html' %}
+{% endfor %}
+
+
+{% endblock %}

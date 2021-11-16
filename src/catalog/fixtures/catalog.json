@@ -1,0 +1,114 @@
+form_class <class 'accounts.forms.RegisterForm'>
+[
+{
+    "model": "catalog.catalogcategory",
+    "pk": 1,
+    "fields": {
+        "catalog": 1,
+        "title": "Frutas",
+        "slug": "frutas",
+        "parent": null,
+        "description": "Frutas de todo tipo, nacionales, importadas y de productores locales.",
+        "featured": true,
+        "active": true,
+        "pub_date": "2018-07-05T20:09:23Z"
+    }
+},
+{
+    "model": "catalog.catalogcategory",
+    "pk": 2,
+    "fields": {
+        "catalog": 2,
+        "title": "Hortalizas",
+        "slug": "hortalizas",
+        "parent": null,
+        "description": "Ricas hortalizas nacionales org\u00e1nicas y convencionales.",
+        "featured": true,
+        "active": true,
+        "pub_date": "2018-07-05T20:28:19Z"
+    }
+},
+{
+    "model": "catalog.catalogcategory",
+    "pk": 3,
+    "fields": {
+        "catalog": 3,
+        "title": "Pescado",
+        "slug": "pescado",
+        "parent": null,
+        "description": "Delicioso pescado de mar, dulce y de cr\u00eda-",
+        "featured": true,
+        "active": true,
+        "pub_date": "2018-07-05T20:29:10Z"
+    }
+},
+{
+    "model": "catalog.catalogcategory",
+    "pk": 4,
+    "fields": {
+        "catalog": 5,
+        "title": "Abejas",
+        "slug": "abejas",
+        "parent": null,
+        "description": "Productos como miel de abeja, polen, candelas en base a cera de abejas, entre muchos productos m\u00e1s.",
+        "featured": true,
+        "active": true,
+        "pub_date": "2018-07-05T20:30:02Z"
+    }
+},
+{
+    "model": "catalog.catalog",
+    "pk": 1,
+    "fields": {
+        "title": "Frutas",
+        "slug": "frutas",
+        "publisher": "Cesar Orozco",
+        "description": "Deliciosas frutas nacionales e importadas de todas clase",
+        "pub_date": "2018-07-05T20:09:29Z"
+    }
+},
+{
+    "model": "catalog.catalog",
+    "pk": 2,
+    "fields": {
+        "title": "Hortlizas",
+        "slug": "hortalizas",
+        "publisher": "Cesar Orozco",
+        "description": "Hortalizas nacionales ricas en vitaminas y minerales. Libres de qu\u00edmicos.",
+        "pub_date": "2018-07-05T20:22:31Z"
+    }
+},
+{
+    "model": "catalog.catalog",
+    "pk": 3,
+    "fields": {
+        "title": "Pescado",
+        "slug": "pescado",
+        "publisher": "Maria Fernanda",
+        "description": "Todo tipo de pescado nacional. De agua salada, dulce y de cria.",
+        "pub_date": "2018-07-05T20:24:01Z"
+    }
+},
+{
+    "model": "catalog.catalog",
+    "pk": 4,
+    "fields": {
+        "title": "Legumbres",
+        "slug": "legumbres",
+        "publisher": "Marianela Ramirez",
+        "description": "Deliciosas legumbres para todo tipo de platillo. Todas org\u00e1nicas y naturales.",
+        "pub_date": "2018-07-05T20:25:03Z"
+    }
+},
+{
+    "model": "catalog.catalog",
+    "pk": 5,
+    "fields": {
+        "title": "Productos Abejas",
+        "slug": "abejasproductos",
+        "publisher": "King Wai",
+        "description": "Productos \u1e55rovenientes de las abejas como miel, polen, cera, remedios para las cataratas entre otros.",
+        "pub_date": "2018-07-05T20:31:03Z"
+    }
+}
+]

@@ -1,0 +1,13 @@
+Hola,
+
+por favor active su cuenta {{ email }} apretando una sola vez el link de abajo.
+
+{{ path }}
+
+Una vez activado podrá comprar y entrar en su tienda virtual.
+
+
+Muchas gracias,
+
+KeinKi Productos Frescos
+KeinKi

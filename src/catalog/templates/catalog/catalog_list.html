@@ -1,0 +1,26 @@
+{% load i18n %}
+{% get_current_language as LAN %}
+
+<div class="col-md-12">
+  <h3> {% trans "Categorias" %} </h3>
+  <hr>
+</div>
+
+{% for obj in category_list %}
+
+<div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-12  my-2 mx-auto">
+    <div class="card my-2 cardCategories" id="category_{{ obj.id }}">
+      {% if obj.image %}
+        <a href="{{ obj.get_absolute_url }}">
+          <img class="card-img-top" src="{{ obj.image.url }}" alt="{{ obj.title }} logo">
+        </a>
+      {% endif %}
+      <div class="cardTags">
+          <a href="{{ obj.get_absolute_url }}" class="btn" id="cardTagDetails"> {% trans "Ver Más..." %} </a>
+      </div>
+      <div class="card-body">
+        <h5 class="card-title"><a href="{{ obj.get_absolute_url }}">{% if LAN == "es" %} {{ obj.title }} {% else %} {{ obj.en_title }} {% endif %}</a></h5>
+      </div>
+    </div>
+</div>
+{% endfor %}

@@ -1,0 +1,44 @@
+
+<form class='form-product-ajax form-product-ajax-par form-inline' method='POST' action='{% url "cart:update" %}' data-endpoint='{% url "cart:update" %}' class="form" {% if request.user.is_authenticated %} data-user='abc'{% endif %}> {% csrf_token %}
+
+    <p id="jquery-message" class='lead '></p>
+    <input type='hidden' name='product_id' value='{{ product.id }}'/>
+
+      {% if object.variation_set.count > 1 %}
+
+
+      <h4 id="price">{{ object.variation_set.first.price }}</h4>
+      <select name="item" class="form-control variation_select" >
+        {% for vari_obj in object.variation_set.all %}
+        <option data-sale-price="{{ vari_obj.sale_price }}" data-price="{{ vari_obj.price }}" value="{{ vari_obj.id }}">
+          {{ vari_obj.title }}
+        </option>
+        {% endfor %}
+      </select>
+
+      {% else %}
+
+      <h3>
+        <input type="hidden" name="item" value="{{ object.variation_set.first.id }}"/>
+        {% if object.variation_set.first.sale_price %}
+          {{ object.variation_set.first.sale_price }}<small class="org-price">{{ object.variation_set.first.price }}</small>
+
+        {% else %}
+          {{ object.variation_set.first.price }}
+        {% endif %}
+
+      {% endif %}
+      </h3>
+
+
+    <span class='submit-span'>
+      <label for='qty'>Cantidad: </label>
+      <input id="quantity" type='number' name='product_qty' value='1' class="form-control"/>
+      <button id='submit-btn' type='submit'  class='btn btn-success my-2'>Agregar al Carrito</button>
+
+      {% if product in cart.products.all %}
+          <div class='btn-group'> <a class='btn btn-link' href='/cart/'>En Carrito - Cantidad: </a> <button type='submit' class='btn btn-link'>Remover?</button></div>
+      {% endif %}
+
+  </span>
+</form>

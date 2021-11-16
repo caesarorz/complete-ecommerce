@@ -1,0 +1,134 @@
+[
+{
+    "model": "products.product",
+    "pk": 1,
+    "fields": {
+        "title": "Berengena",
+        "slug": "berengena",
+        "description": "Berengenas org\u00e1nicas, ricas en vitamina A, B y C. Buena para el higado y ri\u00f1ones.",
+        "price": "800.00",
+        "image": "products/3471893/3471893.jpg",
+        "featured": true,
+        "active": true,
+        "timestamp": "2018-07-04T01:54:10.499Z",
+        "is_digital": false,
+        "default": null,
+        "category": [
+            1
+        ]
+    }
+},
+{
+    "model": "products.product",
+    "pk": 2,
+    "fields": {
+        "title": "Mango",
+        "slug": "mango",
+        "description": "Ricos mangos de productores locales.",
+        "price": "600.00",
+        "image": "products/1388805/1388805.jpg",
+        "featured": true,
+        "active": true,
+        "timestamp": "2018-07-04T01:59:07.328Z",
+        "is_digital": false,
+        "default": null,
+        "category": [
+            2
+        ]
+    }
+},
+{
+    "model": "products.product",
+    "pk": 3,
+    "fields": {
+        "title": "Melon Chino",
+        "slug": "melon-chino",
+        "description": "Ricos Pepinos Chinos producidos en Costa Rica. Excelente para todo tipo de enfermedades.",
+        "price": "2500.00",
+        "image": "products/2592464/2592464.jpg",
+        "featured": true,
+        "active": true,
+        "timestamp": "2018-07-04T14:02:31.814Z",
+        "is_digital": false,
+        "default": null,
+        "category": [
+            1
+        ]
+    }
+},
+{
+    "model": "products.product",
+    "pk": 4,
+    "fields": {
+        "title": "Chayote",
+        "slug": "chayote",
+        "description": "Choyotes nacionales de primera calidad org\u00e1nicos.",
+        "price": "1100.00",
+        "image": "products/2246561/2246561.jpg",
+        "featured": false,
+        "active": true,
+        "timestamp": "2018-07-04T14:03:30.913Z",
+        "is_digital": false,
+        "default": null,
+        "category": [
+            1
+        ]
+    }
+},
+{
+    "model": "products.variation",
+    "pk": 1,
+    "fields": {
+        "product": 1,
+        "title": "Berengena",
+        "description": null,
+        "price": "800.00",
+        "sale_price": null,
+        "active": true,
+        "inventory": null,
+        "timestamp": "2018-07-04T01:54:10.506Z"
+    }
+},
+{
+    "model": "products.variation",
+    "pk": 3,
+    "fields": {
+        "product": 2,
+        "title": "Mango",
+        "description": null,
+        "price": "600.00",
+        "sale_price": "550.00",
+        "active": true,
+        "inventory": null,
+        "timestamp": "2018-07-04T01:59:07.333Z"
+    }
+},
+{
+    "model": "products.variation",
+    "pk": 4,
+    "fields": {
+        "product": 3,
+        "title": "Melon Chino",
+        "description": null,
+        "price": "2500.00",
+        "sale_price": null,
+        "active": true,
+        "inventory": null,
+        "timestamp": "2018-07-04T14:02:31.819Z"
+    }
+},
+{
+    "model": "products.variation",
+    "pk": 5,
+    "fields": {
+        "product": 4,
+        "title": "Chayote",
+        "description": null,
+        "price": "1100.00",
+        "sale_price": "1000.00",
+        "active": true,
+        "inventory": 10,
+        "timestamp": "2018-07-04T14:03:30.919Z"
+    }
+}
+]

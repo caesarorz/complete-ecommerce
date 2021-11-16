@@ -1,0 +1,30 @@
+{% load i18n %}
+
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="loginModalLabel">{% trans "Entrar" %} </h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <span class='leave_capture' show='false'></span>
+        <form class="loginForm" method="POST" action="{% url 'login' %}"> {% csrf_token %}
+          <label for="id_email"> {% trans "Correo electrónico:" %} </label>
+          <input type="email" name="email" class="form-control loginInfo" placeholder=" {% trans "Su Correo" %}" required id="id_email"/>
+          <label for="id_password"> {% trans "Contraseña:" %} </label>
+          <input type="password" name="password" class="form-control loginInfo" placeholder=" {% trans "Su Contraseña" %}" required id="id_password"/>
+          <input class="btn btn-primary" type="submit" name="submit" value=" {% trans "Enviar" %}">
+          <input type="button" class="btn btn-secondary" data-dismiss="modal" value=" {% trans "Cancelar" %}"></input>
+        </form>
+      </div>
+      <div> {% trans "Olvidó su contraseña?" %}
+        <a href="/accounts/password/reset/"> {% trans "Resetear Aquí" %} </a>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>

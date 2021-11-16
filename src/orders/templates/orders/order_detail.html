@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<div class="row">
+  <div class="col-lg-12 col-md-8 mx-auto">
+    <h3> {% trans "Orden" %}  {{ object }} </h3><!--Order-->
+    <hr/>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12 col-md-8 mx-auto">
+    <h4> {% trans "Artículos:" %} </h4>
+
+<div class="table-responsive-sm">
+
+  <table class="table table-hover table-dark">
+  <thead>
+    <tr>
+      <th class="text-responsive" scope="col">{% trans "Producto:" %} </th>
+      <th class="text-responsive" scope="col">{% trans "Precio:" %}</th>
+      <th class="text-responsive" scope="col">{% trans "Presentación:" %}</th>
+      <th class="text-responsive" scope="col">{% trans "Cantidad:" %}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for product in object.cart.cartitem_set.all %}
+    <tr>
+      <td class="text-responsive">{{ product }}</td>
+      <td class="text-responsive">{{ product.line_item_total }}</td>
+      <td class="text-responsive">{{ product.item.get_presentation }}</td>
+      <td class="text-responsive">{{ product.item.item.quantity }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+  <div class="order-detail">
+    <p>{% trans "Dirección Envio:" %}  {{ object.shipping_address.get_address }}</p><!--Shipping Address-->
+    <p>{% trans "Subtotal:" %} {{ object.cart.subtotal }} + IV {{ object.cart.tax_total }}</p> <!--Subtotal-->
+    <p>{% trans "Transporte Total:" %} {{ object.shipping_total }}</p><!--Shipping total-->
+    <p>{% trans "Total:" %} {{ object.total }}</p><!--order total-->
+    {% if object.payment_method == 'efectivo' %}
+    <p>{% trans "Método de pago: Efectivo.  /  Paga con:" %} {{ object.cash_amount }} / ({% trans "Vuelto: " %}{{ object.cash_change }})</p>
+    {% else %}
+      <p>{% trans "Método de pago: Tarjeta" %}
+    {% endif %}
+    <p>{% trans "Estado de la Orden: " %} {{ object.get_status }}</p><!--order status-->
+    <form method='GET' action="{% url 'orders:pdf' %}">
+      <input type="hidden" name='order_id' value="{{ object.order_id }}">
+      <input class="form-control btn btn-lg btn-primary" id='' type="submit" value="{% trans "Dirección Envio:" %}Abrir PDF" formtarget="_blank"></input>
+      <a class="form-control btn btn-lg btn-success my-1" href="{% url 'home' %}">{% trans "Seguir comprando" %}</a>
+    </form>
+  </div>
+
+  </div>
+  </div>
+</div>
+
+{% endblock %}

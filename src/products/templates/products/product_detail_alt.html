@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+<script>
+{% block javascript %}
+  function setPrice(){
+    var price = $(".variation_select option:selected").attr("data-price");
+    var sale_price = $(".variation_select option:selected").attr("data-sale-price");
+    var stock = $(".variation_select option:selected").attr("inventory");
+    if(stock <= 0){ stock = 0; }
+
+    console.log(price + " " + sale_price + " " + stock);
+    if(sale_price != "" && sale_price != "None" && sale_price != null){
+      $("#price").html("<h4>&#8353;" + sale_price + "  <small class='org-price'>&#8353;" + price + "</small></h4>");
+      $("#inventory").text("Agotado. Pronto lo tendremos!");
+    }else{
+      if(price){
+        $("#price").html("<h3>&#8353; "+price+"</h3>");
+        $("#inventory").text(stock);
+      }else{
+        var price = $("#oneVar-data-price").attr("value");
+        $("#price").html("<h3>&#8353; "+price+"</h3>");
+        $("#inventory").text(stock);
+      }
+    }
+  }
+
+  setPrice();
+  $(".variation_select").change(function(){
+    setPrice();
+  });
+
+
+
+{% endblock %}
+</script>
+
+
+
+{% block content %}
+
+
+<div class="row">
+  <div class="col-sm-7 my-3">
+    {% if object.get_image_url %}
+    <div class="d-flex justify-content-end">
+      <img src="{{ object.get_image_url }}" class="img-fluid detailImage" alt="" style="height:60%"/>
+    </div>
+    {% endif %} <br>
+    <div class="">
+      <h2 class="">{{ object }}</h2>
+      <p class="lead">{{ object.description }}</p>
+    </div>
+  </div>
+
+<div class="col ">
+
+  {% include 'products/snippets/update_cart_alter.html' with product=object %}
+
+    <hr/>
+
+    <p>
+      {% trans 'Compartir' %}  <br>
+      <a href="Share on facebook"></a>
+      <i class="fab fa-facebook fa-3x"></i>
+      <a href="Share on Instagram"></a>
+      <i class="fab fa-instagram fa-3x"></i>
+    </p>
+
+
+</div>
+</div>
+
+
+<div class="row">
+    <div class="col-sm-12">
+      <hr>
+      <h4>{% trans "Productos Relacionados" %} </h4>
+    </div>
+    {% for pro in related %}
+    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-12 my-2 mx-auto" id="cardOver">
+      {% include 'products/snippets/card_alter.html' with instance=pro price=False %}
+      {% cycle '' '' '</div> <hr> <div class="row">' %}
+    </div>
+    {% endfor %}
+</div>
+
+
+{% endblock %}

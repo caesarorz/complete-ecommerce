@@ -1,0 +1,22 @@
+{% load i18n %}
+{% if address_qs.exists %}
+
+<div class="registrada hideElement">
+  <form method='POST' action='{{ action_url }}'> {% csrf_token %}
+       {% if next_url %}
+      <input type='hidden' name='next' value='{{ next_url }}' />
+      {% endif %}
+      {% if address_type %}
+      <input type='hidden' name='address_type' value='{{ address_type }}' />
+      {% endif %}
+
+      {% for address in address_qs %}
+          <label for='address-{{ address.id }}'>
+              <input id='address-{{ address.id }}' type='radio' name='shipping_address' value='{{ address.id }}' />
+          {{ address.direccion_linea_1 }} {{ address.provincia }} {{ address.canton }}  {{ address.distrito }} {{address.id}}
+          </label><br/>
+      {% endfor %}
+      <button type='submit' class='btn btn-success'> {% trans "Usar Direción" %}</button>
+  </form>
+</div>
+{% endif %}

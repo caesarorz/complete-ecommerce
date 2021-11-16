@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-6 col-12 mx-auto">
+    <h1>{% trans "Entrar" %}</h1>
+    <form method='POST'> {% csrf_token %}
+      {{ form }}
+      <button type='submit' class='btn btn-default my-1'>{% trans "Enviar" %}</button>
+    </form>
+    <div>{% trans "Olvidó su contraseña?" %}
+      <a href="{% url 'password_reset' %}">{% trans "Resetear Aquí" %}</a>
+    </div>
+  </div>
+
+{% endblock %}

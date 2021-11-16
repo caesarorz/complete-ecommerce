@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+<script>
+{% block javascript %}
+
+  function setPrice(){
+    var price = $(".variation_select option:selected").attr("data-price");
+    var sale_price = $(".variation_select option:selected").attr("data-sale-price");
+    console.log(price + sale_price);
+    if(sale_price != "" && sale_price != "None" && sale_price != null){
+      $("#price").html("<h3>" + sale_price + "  <small class='og-price'>" + price + "</small></h3>");
+    }else{
+      $("#price").html(price);
+    }
+  }
+  setPrice();
+
+  $(".variation_select").change(function(){
+    setPrice();
+  })
+
+
+  $("#submit-btn").click(function(){
+    event.preventDefault();
+    var formData = $("#add-form").serialize();
+    console.log(formData);
+    $.ajax({
+      type: "POST",
+      url: "{% url 'cart-cbv' %}",
+      data: formData,
+      success: function(data){
+        $('#jquery-message').text("Added " + data.item_added + " Deleted " + data.deleted)
+        updateCartCountItem()
+      },
+      error: function(response, error){
+        // $("#add-form").submit()
+      },
+    })
+  })
+
+{% endblock %}
+</script>
+
+
+{% block content %}
+
+
+<div class="row">
+{{ message }}
+
+{% for obj in object_list %}
+
+<div class="col-md-4 my-2">
+
+  {% include 'products/snippets/card_alter.html' with instance=obj price=True %}
+
+
+</div>
+  {% cycle '' '' '</div> <hr> <div class="row">' %}
+
+{% endfor %}
+
+
+</div>
+{% endblock %}

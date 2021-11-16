@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+
+{% block javascript %}
+
+<script>
+
+$(document).ready(function(){
+
+  function renderChart(id, data, labels){
+    // var ctx = document.getElementById("myChart").getContext('2d');
+    var ctx = $('#' + id)
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Ventas',
+                data: data,
+                backgroundColor: 'rgba(23, 181, 89, 0.45)',
+                borderColor: 'rgba(50, 181, 79, 1)',
+                borderWidth: 3
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+    });
+  }
+
+  function getSalesData(id, type){
+    var url = '/analytics/sales/data/'
+    var method = 'GET'
+    var data = {"type": type}
+    $.ajax({
+      url: url,
+      method: method,
+      data: data,
+      success: function(responseData){
+        renderChart(id, responseData.data, responseData.labels)
+      }, error: function(error){
+        $.alert('An error ocurred')
+      }
+    })
+  }
+  //
+  getSalesData('thisWeekSales', 'week')
+  getSalesData('fourWeekSales', '4weeks')
+
+  var chartsToRender = $('.ec-render-chart')
+  $.each(chartsToRender, function(index, html){
+    var $this = $(this)
+    if ($this.attr('id') && $this.attr('data-type')){
+      getSalesData($this.attr('id'), $this.attr('data-type'))
+    }
+  })
+
+})
+
+
+</script>
+
+{% endblock %}
+
+{% block content %}
+<hr/>
+<div class="row my-4">
+  <div class="col-12 text-center">
+    <h1>Datos de Ventas</h1><!--Sales Data-->
+  </div>
+
+
+</div>
+<div class="row my-4">
+  <div class="col-4">
+    <h3>Ventas de Hoy</h3><!--Today's Sales-->
+    <hr/>
+      <p>Recientes Total: &#8353;{{ today.recent_data.total__sum }}</p><!--Recent-->
+      <ol>
+        {% for order in today.recent|slice:"5" %}
+            <li>{{ order.order_id }}
+              {{ order.total }}
+              {{ order.updated }}</li>
+        {% endfor %}
+      </ol>
+      <h3>Ventas esta Semana</h3><!--This Week Sales-->
+      <hr/>
+      <p>Recientes Total: &#8353;{{ this_week.recent_data.total__sum }}</p><!--Recent-->
+      <ol>
+        {% for order in this_week.recent|slice:"5" %}
+            <li>{{ order.order_id }}
+              {{ order.total }}
+              {{ order.updated }}</li>
+        {% endfor %}
+      </ol>
+  </div>
+    <div class="col">
+      <canvas class="ec-render-chart" id="thisWeekSales" data-type='week' width="400" height="400"></canvas>
+    </div>
+</div>
+
+<hr>
+
+<div class="row my-4">
+  <div class="col-12">
+    <h3>Ventas 4 Semanas Previas</h3><!--Previous Four Weeks Sales-->
+  </div>
+  <div class="col">
+    <p>Total Órdenes: &#8353;{{ last_four_weeks.recent_data.total__sum }}</p><!--Recent-->
+    <p>Enviado Total: {% if last_four_weeks.shipped_data.total__sum %}  &#8353;{{ last_four_weeks.shipped_data.total__sum }} {% endif %}</p><!--Shipped-->
+    <p>Pagadas Totales: &#8353;{{ last_four_weeks.paid_data.total__sum }}</p><!--Paid Totals:-->
+  </div>
+  <div class="col">
+    <canvas class="ec-render-chart" id="fourWeekSales" data-type='4weeks' width="400" height="400"></canvas>
+  </div>
+</div>
+
+
+{% endblock %}

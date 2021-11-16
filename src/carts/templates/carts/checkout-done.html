@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+  <div class="col-12 mx-auto py-5 text-center" id="ckeckout-success">
+    <h3>{% trans "Gracias por su orden!" %}</h3>
+    <p>{% trans "Le estaremos enviando su factura a su correo electrónico o celular." %} </p>
+    {% if request.user.is_authenticated %}
+      <a class="form-control btn btn-lg btn-primary my-1" href="{{ object.get_absolute_url }}">{% trans "Ver Detalle Orden" %}</a>
+    {% endif %}
+    <form method='GET' action="{% url 'orders:pdf' %}">
+      <div class="form-group">
+        <input type="hidden" name='order_id' value="{{ object.order_id }}">
+        <button class="form-control btn btn-lg btn-primary my-1" id='' type="submit" value="Abrir PDF" formtarget="_blank">{% trans "Abrir PDF" %}</button>
+      </div>
+    </form>
+
+    <a class="form-control btn btn-lg btn-success my-1" href="{% url 'home' %}"> {% trans "Seguir comprando" %}</a>
+
+  </div>
+
+
+{% endblock %}

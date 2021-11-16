@@ -1,0 +1,13 @@
+{% load i18n %}
+
+  <div class="col-md-12 my-2">
+    <h3>{% trans "Productos" %}</h3>
+    <hr>
+  </div>
+
+
+  {% for obj in object_list %}
+  <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-12 my-2 mx-auto" id="cardOver">
+    {% include 'products/snippets/card_alter.html' with instance=obj cart=cart cart_items=cart_items price=True %}
+  </div>
+  {% endfor %}

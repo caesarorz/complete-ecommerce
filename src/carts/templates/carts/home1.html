@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="col-sm-12">
+
+<h1>Cart</h1>
+
+
+
+
+
+{% if cart.products.exists %}
+
+  Cart: {{ cart }}
+<br>
+
+
+{% for obj in cart.cartitem_set.all %}
+  {{ obj }} <br>
+  {{ obj.id }} <br>
+  {{ obj.quantity }} <br>
+  {{ obj.variation_set.get_price  }}
+{% endfor %}
+
+
+<table class="table cart-table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Producto</th>
+      <th scope="col">Precio</th>
+    </tr>
+  </thead>
+  <tbody class="cart-body">
+
+
+    {% for product in cart.cartitem_set.all %}
+    <tr class="cart-product">
+      <th scope="row">{{ forloop.counter }}</th>
+      <td>
+        <a href="{{ product.get_absolute_url }}">{{ product }}</a>
+        {% include 'carts/snippets/remove-product.html' with product_id=product.id %}
+
+
+
+      </td>
+      <td>{{ product.variation_set.get_price }}</td>
+    </tr>
+    {% endfor %}
+    <tr>
+      <td colspan="2"></td>
+      <td><b>Subtotal </b> &#8353;<span class="cart-subtotal"> {{ cart.subtotal }}</span></td>
+    </tr>
+    <tr>
+      <td colspan="2"></td>
+      <td><b>Total </b> &#8353;<span class="cart-total">{{ cart.total }}</span></td>
+    </tr>
+    <tr>
+      <td colspan="2"></td>
+      <td> <a class="btn btn-lg btn-success" href="{% url "cart:checkout" %}">Pagar</a> </td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="cart-item-remove-form" style='display:none'>
+  {% include 'carts/snippets/remove-product.html' %}
+</div>
+
+{% else %}
+  <p class="lead">Carrito compras vacio!</p>
+{% endif%}
+
+</div>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% load i18n %}
+
+{% get_current_language as LAN %}
+
+<div class="card mb-3 {{ instance.title }} text-white" id="cardStyle">
+
+    <div class='btn-group' id="inCardTag" {% for item in cart_obj.cartitem_set.all %}{% if instance.variation_set.first.title == item.item.title %} style="display: block;"{% endif %}{% endfor %}>
+      <a class='btn btn-link' id="inCardTagBtn" href={% url 'cart-cbv' %}> {% trans "En Carrito" %} <i class="fas fa-shopping-cart"></i> {% trans "Pagar" %}</a>
+    </div>
+
+  {% if instance.image %}
+      <img class="card-img-top" src="{{ instance.image.url }}" alt="{{ instance.title }} logo">
+
+  {% endif %}
+  <div class="cardTags">
+      <a href="{{ instance.get_absolute_url }}" class="btn" id="cardTagDetails"> {% trans "Ver Más Detalles" %}</a>
+  </div>
+  <div class="card-body">
+    <h5 class="productTitle">{% if LAN == "es" %} {{ instance.title }} {% else %} {{ instance.en_title }} {% endif %} </h5>
+    <p class="card-title hideElement"> {% trans "Presentación por" %} {{ instance.presentation }}</p>
+    {% if price == True %}
+    <div id="add-form-featured">
+        {% include 'products/snippets/update_cart_alter.html' with product=instance cart=cart %}
+    </div>
+    {% endif %}
+
+    <div class="cardUpdate">
+      <!--<a type="submit" class="btn" id="cardTagBuy">Actualizar Compra <i class="fas fa-pen-square"></i></a>-->
+      <button id="cardTagBuy" type="submit" class="btn btn-secondary btn-lg btn-block"> {% trans "Actualizar Compra" %} <i class="fas fa-shopping-bag"></i></button>
+    </div>
+    <div class="cardBuy">
+      <button id="cardTagBuy" type="submit" class="btn btn-secondary btn-lg btn-block"> {% trans "Comprar" %} <i class="fas fa-shopping-cart"></i></button>
+      <!--<a type="submit" class="btn" id="cardTagBuy">Comprar <i class="fas fa-shopping-cart"></i></a>-->
+    </div>
+  </div>
+</div>

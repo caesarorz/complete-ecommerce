@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+
+
+{% if not billing_profile %}
+
+<div class="row">
+    <div class='col-md-6'>
+        <h3> {% trans "Logearse" %} </h3>
+        {% include 'accounts/snippets/form.html' with form=login_form next_url=request.build_absolute_uri %}
+    </div>
+    <div class='col-md-6'>
+        <h3>{% trans "Continuar como Invitado" %} </h3>
+
+        {% url "guest_register" as guest_register_url %}
+        {% include 'accounts/snippets/form.html' with form=guest_form next_url=request.build_absolute_uri action_url=guest_register_url %}
+    </div>
+</div>
+
+{% else %}
+            {% if not object.shipping_address %}
+            <div class="row addresses">
+              <div class='col-12'>
+                  <p class='lead'> {% trans "Direccion de Envio" %}</p><!--Shipping addres-->
+                  <input class="choose_address" id="" type="radio" name="choose_address" value="manual"> {% trans "Ingresar Dirección Manual" %} <br>
+                  {% if request.user.is_authenticated %}
+                  <input class="choose_address" type="radio" name="choose_address" value="registrada"> {% trans "Usar Dirección Anterior" %} <br>
+                  {% endif %}
+                  {# <input class="choose_address" type="radio" name="choose_address" value="gps"> Habilitar Localización automática #}
+                  <hr/>
+
+              </div>
+            <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-12 my-2 mx-auto">
+                {% url "checkout_address_create" as checkout_address_create %}
+                {% include 'addresses/form.html' with form=address_form next_url=request.build_absolute_uri action_url=checkout_address_create address_type='shipping' %}
+            </div>
+
+                {# {% if request.user.is_authenticated %}<!-- if user has been buying as a guest, store address and render then in here --> #}
+                <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-12 my-2 mx-auto">
+                    {% url 'checkout_address_reuse' as checkout_address_reuse %}
+                    {% include 'addresses/prev_addresses.html' with address_qs=address_qs next_url=request.build_absolute_uri address_type='shipping' action_url=checkout_address_reuse %}
+                </div>
+                {# {% endif%} #}
+              </div>
+            {% else %}
+
+              {% if not object.payment_method %}
+
+                {% url 'choose_payment_method' as choose_payment_method %}
+                {% include 'orders/choose_payment_method.html' with payment_method=payment_method next_url=request.build_absolute_uri action_url=choose_payment_method %}
+
+              {% else %}
+
+                  {% if not has_card and object.payment_method == 'tarjeta' %}
+                    <div class="col-md-6">
+                      <!-- enter credit card here -->
+                      <div class='stripe-payment-form' data-token='{{ publish_key }}' data-next-url='{{ request.build_absolute_uri }}{{ next_url }}' data-btn-title='{% trans "Agregar Tarjeta" %} '></div>
+                    </div>
+
+                  {% else %}
+
+                      {% if object.payment_method %}
+                        <div class="col-sm-12">
+
+                          <h3> {% trans "Finalizar Pago" %}</h3><!--Finalize Checkout-->
+                          <hr>
+                          <form id="checkout" class='form' method='POST' action="">{% csrf_token %}
+                          <p>{% trans "Artículos Carrito:" %}
+                            {% for product in object.cart.cartitem_set.all %}
+                              {{ product }}
+                              {% if not forloop.last %},
+                              {% endif %}
+                            {% endfor %}</p>
+                          <p>{% trans "Dirección Envio:" %} {{ object.shipping_address.get_address }}</p>
+                          <!-- <p>Dirección Facturación: {{ object.billing_address.get_address }}</p> -->
+
+
+                          <p>{% trans "Carrito Total:" %} {{ object.cart.cart_total }}</p> <!--Cart Total-->
+                          <p>{% trans "Transporte Total:" %} {{ object.shipping_total }}</p><!--Shipping total-->
+                          <p>{% trans "Orden Total:" %} {{ object.total }}</p><!--order total-->
+                          {% if object.payment_method == payment_choices.efectivo %}
+                            <label>
+                              <p>{% trans "Método Pago: Efectivo" %}</p>
+                              {% trans "Digitar el monto con el que desea pagar:" %}
+                              <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text">&#8353;</span>
+                                </div>
+                                <input class="form-control" type="number" name="amount"  placeholder="00000.00">
+                              </div>
+                              {% if error %}
+                              <div class="alert alert-warning" role="alert">{{ message }}</div>
+                              {% endif %}
+                            </label>
+                          {% endif %}
+                          {% if object.payment_method == payment_choices.tarjeta %}
+                            <p>{% trans "Método Pago: Tarjeta:" %} {{ billing_profile.default_card }}(<a href="{{ billing_profile.get_payment_method_url }}?next={{ request.build_absolute_uri }}"> {% trans "Cambiar Tarjeta" %} </a>)</p>
+                          {% endif %}
+                          <p><a href="{{ object.cart.change_payment_method_url }}?next={{ request.build_absolute_uri }}">{% trans "Cambiar Método de Pago" %} </a></p>
+                            <button type='submit' class='btn btn-success'> {% trans "Pagar" %}</button>
+                          </form>
+                        </div>
+                      {% endif %}
+
+                  {% endif %}
+              {% endif %}
+            {% endif %}
+{% endif %}
+
+
+{% endblock %}

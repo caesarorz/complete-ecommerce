@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+
+{% block content %}
+
+{{ user_auth }}
+
+<div class="col-sm-6">
+  <p class='lead'>Continuar como Invitado</p>
+
+<form methos="POST" action="">{% csrf_token %}
+  {{ form|crispy }}
+  <input type="hidden" name="next" value="{{ next_url }}">
+  <input type="submit" class="btn btn-success" value="Continuar como Invitado">
+</form>
+</div>
+
+
+<div class="row">
+
+{% if not user_can_continue %}
+
+<div class="col-sm-6">
+  <p class='lead'>Continuar como Invitado</p>
+</div>
+
+<div class="col-sm-6">
+  <p class='lead'>Logearse para Continuar</p>
+  <form method='POST' class="" action="{% url 'login' %}">{% csrf_token %}
+  {{ login_form|crispy }}
+  <input type="hidden" name="next" value="{{ next_url }}">
+  <input type="submit" class="btn btn-success" value="Login">
+  </form>
+  <br/>
+  <p>Olvido su contraseña <a href="#">Resetear</a></p>
+  <p>Not eres Miembro? <a href="#">Registrate aquí</a></p>
+</div>
+
+
+{% endif %}
+</div>
+
+{% endblock %}%}

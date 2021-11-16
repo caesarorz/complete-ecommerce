@@ -1,0 +1,115 @@
+{% load static i18n %}
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>{% trans "Productos frescos del Mar" %}</title>
+    {% include 'base/css.html' %}
+    {% block base_head %}{% endblock %}
+</head>
+
+ <!--<body onload="myFunction()">-->
+<body onload="myFunction()">
+
+<div id="loader"></div>
+
+
+<div id="myModal" class="modal">
+  <!-- Modal content -->
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="close">&times;</span>
+      <h2>Modal Header</h2>
+    </div>
+    <div class="modal-body">
+      <p>Some text in the Modal Body</p>
+      <p>Some other text...</p>
+    </div>
+    <div class="modal-footer">
+      <h3>Modal Footer</h3>
+    </div>
+  </div>
+
+</div>
+{# <button id="back" class="goBack" title="Volver"><a href="{{ home_url }}"> <i class="fas fa-chevron-left"></i> Volver</a> </button> #}
+
+
+
+      {% include 'base/navbar.html' with brand_name='CoopeproMar' %}
+
+      {% include 'base/navbarSearch.html' %}
+
+ <!-- main container  <div class="container"> -->
+ <div class="fix-container container-fluid animate-bottom" style="display:none;" id="myDiv">
+
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12">
+          {% if messages %}
+          <div class="alert alert-success messages">
+            {% for message in messages %}
+            <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+                {{ message }}<br/>
+            </p>
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Button  go to top -->
+
+      {% block content %}
+
+      {% endblock %}
+
+
+    <button id="stop" class="scrollTop" title="Go to top"><i class="fa fa-chevron-up" aria-hidden="true"></i></button>
+
+    {% include "base/auth/loginModal.html" %}
+    {% include "base/auth/registerModal.html" %}
+    {#{% include "accounts/snippets/register-modal.html"  %} #}
+    {% include "contact/modal.html"  %}
+    {% include "base/productsModal.html" %}
+
+    <!-- Messages Modal -->
+    <div id="messageModal" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div id="message">
+          </div>
+          <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Cerrar" %}</button>
+        </div>
+      </div>
+    </div>
+
+  </div> <!-- main container  </div> -->
+
+    <div id="footer" class="container-fluid" style="background-color: #fff;">
+      <div class="row">
+        <div class="col-sm-12">
+          {% include 'base/footer.html' %}
+        </div>
+      </div>
+    </div>
+
+
+  {% include 'base/js.html' %}
+
+  <script>
+  $(document).ready(function(){
+    {% block javascript %}
+    {% endblock %}
+  });
+  </script>
+
+
+</body>
+</html>

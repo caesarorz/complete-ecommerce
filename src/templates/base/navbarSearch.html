@@ -1,0 +1,42 @@
+{% load static %}
+{% load i18n %}
+
+{% url 'home' as home_url %}
+{% url 'contact' as contact_url %}
+{% url 'categories:category_list' as category_list_url %}
+{% url 'login' as login_url %}
+{% url 'logout' as logout_url %}
+{% url 'register' as register_url %}
+{% url 'account:home' as account_url %}
+{% url 'orders:list' as orders_url %}
+{% url 'cart-cbv' as cart_url %}
+
+<nav class="mynavbar navbar navbar-expand-lg navbar-dark container-fluid top-fixed" id="mynavSearch">
+  <div class="container">
+
+    <ul class="nav searchForm">
+      <li class="nav-item">
+        {% include "search/snippets/search-form.html" %}
+      </li>
+    </ul>
+    <ul class="nav justify-content-end">
+      <li id="cartIconAnchor" class="nav-item justify-content-end {% if request.path == cart_url %}active{% endif %}">
+        <a class="nav-link" href="{{ cart_url }}">
+          <i class="fas fa-shopping-cart"></i>
+          <span id="cart-count-badge" class="navbar-cart-count badge badge-primary badge-pill">{{ request.session.cart_item_count }}</span>
+        </a>
+      </li>
+      <li class="dropdown" id="cartAdded" {% if request.session.cart_item_count > 0 %} style="display: block"; {% endif %}>
+        <div class="dropdown">
+          <button id="navbarDropdown" class="dropbtn">Items<i class="fas fa-chevron-down"></i></button>
+          <div class="dropdown-content" id="dropdownCart">
+            {% for item in request.session.items_cart %}
+              <a href="#">{{ item.title }} - {{ item.quantity }} - {{ item.presentation }}</a>
+            {% endfor %}
+            <a class="dropdown-item" href="{{ cart_url }}"> Checkout </a>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>

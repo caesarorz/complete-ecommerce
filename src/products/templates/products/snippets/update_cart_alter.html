@@ -1,0 +1,66 @@
+{% load i18n %}
+
+<form class="form-product-ajax text-center" id='add-form' method='POST' action='{% url "cart-cbv" %}'>{% csrf_token %}
+  <p id='jquery-message' class="lead"></p>
+  <input id="in-cart" type="hidden" name="item" value="{{ product.variation_set.first.id }}"/>
+
+  <!-- No variation's product-->
+  {% if product.variation_set.count == 1 %}
+  <input type="hidden" id="oneVar-data-sale-price" value="{{ product.variation_set.first.sale_price }}" var_id="{{ product.variation_set.first.id }}"/>
+  <input type="hidden" id="oneVar-data-price" value="{{ product.variation_set.first.price }}" var_id="{{ product.variation_set.first.id }}"/>
+    <h4 id="price" value="">
+          {% if product.variation_set.first.sale_price %}
+            &#8353; {{ product.variation_set.first.sale_price }}<small class="org-price">&#8353; {{ product.variation_set.first.price }}</small> {{ product.variation_set.first.get_presentation }}
+          {% else %}
+            &#8353; {{ product.variation_set.first.price }}  {{ product.variation_set.first.get_presentation }}
+          {% endif %}
+    </h4>
+    <h5>
+      <span id="inventory">
+        {% if product.variation_set.first.inventory <= 0 %}
+              {% trans "Agotado. Pronto lo tendremos!" %}
+        {% else %}
+          {% trans "Existencias:" %}  {{ product.variation_set.first.inventory }} {{ product.variation_set.first.get_presentation }}
+        {% endif %}
+      </span>
+    </h5>
+  {% endif %}
+
+  <!-- More than one variation -->
+  {% if product.variation_set.count > 1 %}
+        <h4 id="price">
+          {% if product.variation_set.first.sale_price %}
+            &#8353; {{ product.variation_set.first.sale_price }}<small class="org-price">&#8353; {{ product.variation_set.first.price }}</small>
+          {% else %}
+            &#8353; {{ product.variation_set.first.price }}  {% if product.variation_set.first.presentation == "peso" %} {% trans "kilo(s)" %} {% else %} {% trans "unidad(es)" %}  {% endif %}
+          {% endif %}
+        </h4>
+        <h5>
+          <span id="inventory">
+            {% if product.variation_set.first.inventory <= 0 %}
+              {% trans "Agotado. Pronto lo tendremos!" %}
+            {% else %}
+              {% trans "Existencias:" %} {{ product.variation_set.first.inventory }} {% if product.variation_set.first.presentation == "peso" %} {% trans "kilo(s)" %} {% else %} {% trans "unidad(es)" %} {% endif %}
+            {% endif %}
+          </span>
+        </h5>
+      <select name='item' class="form-control variation_select custom-select">
+        {% for var_obj in product.variation_set.all %}
+          <option id="{{ var_obj.title }}" data-sale-price="{{ var_obj.sale_price }}" data-price="{{ var_obj.price }}" inventory="{{ var_obj.inventory }}" value="{{ var_obj.id }}" var_id="{{ var_obj.id }}" in_cart="">{{ var_obj.title }}</option>
+        {% endfor %}
+      </select>
+  {% endif %}
+
+      <div id="btnCardAdd" class="{% if product.variation_set.first.inventory >= 1 %} showElement {% else %} hideElement {% endif %}">
+        <div id='itemInput'>
+          {% if product.variation_set.first.presentation == "unidad" %}
+            {% include 'products/snippets/input_unit.html' with product=product %}
+          {% else %}
+            {% include 'products/snippets/input_weight.html' with product=product %}
+          {% endif %}
+        </div>
+        <div class="addProductBtnWrapper">
+          <button id='addProductBtn' type="submit" class="btn btn-success my-1"> {% trans "Agregar al Carrito" %}</button>
+        </div>
+      </div>
+</form>

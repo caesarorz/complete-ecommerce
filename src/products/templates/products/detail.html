@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+
+<script>
+{% block javascript %}
+
+  function setPrice(){
+    var price = $(".variation_select option:selected").attr("data-price");
+    var sale_price = $(".variation_select option:selected").attr("data-sale-price");
+    if(sale_price != "None" && sale_price != "" && sale_price != null){
+      $("#price").html("<h3>" + sale_price + " <small class='org-price'>" +price + "</small></h3>");
+    }else{
+      $("#price").html("<h3>" + price + "</h3>");
+    }
+  }
+  setPrice()
+
+  $(".variation_select").change(function(){
+    setPrice()
+  });
+
+  $("#submit-btn").click(function(event){
+    // event.preventDefault();
+    var formData = $("#add-form").serialize();
+    var qty = $("#quantity").val();
+
+    // $.ajax({
+    //   type: "POST",
+    //   url: "{% url 'cart:update' %}",
+    //   data: formData,
+    //   success: function(data){
+    //     $("#jquery-message").text("Added " + data.added + " Deleted " + data.removed)
+    //     $("#quantity").text(qty)
+    //     console.log(formData)
+    //   },
+    //   error: function(response, error){
+    //     $("#add-form").submit()
+    //   },
+    // })
+
+
+  });
+
+
+{% endblock %}
+</script>
+
+{% block content %}
+
+
+  <div class="row">
+    <div class="col-12 col-md-6">
+        {{ object.variation_set.all.first }}
+        <h1>{{ object.title }}</h1>
+        {{ object.description|linebreaks }} <br/>
+        {% if object.image %}
+          <img src="{{ object.image.url }}" class="img-fluid" alt=""/>
+        {% endif %}
+    </div>
+
+    <div class="col-12 col-md-6">
+
+      {% include 'products/snippets/update-cart.html' with product=object cart=cart variation=object.variation_set.all.first %}
+
+      <br>
+      <p>Share: facebook</p>
+      <hr>
+      <h4>Productos Relacionados</h4>
+    </div>
+  </div>
+
+
+
+
+{% endblock %}

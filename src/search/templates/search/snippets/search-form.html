@@ -1,0 +1,12 @@
+{% load i18n %}
+
+<form method="GET" action="{% url "search:query" %}" class="form-inline search-form margin">
+  <div class="input-group">
+    <input id="searchForm" class="form-control" type="text" name='q' placeholder="{% trans "Buscar producto" %}" aria-label="Buscar" value="{{ request.GET.q }}">
+    <div class="input-group-append">
+      <button id="searchInput" class="btn btn-primary" type="submit">
+        <i class="fa fa-search"></i>
+      </button>
+    </div>
+  </div>
+</form>

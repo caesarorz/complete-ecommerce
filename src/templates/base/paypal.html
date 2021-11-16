@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+
+
+
+
+  </head>
+  <body>
+
+    <p>Paypal buttons</p>
+<!--    <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+
+
+      <input type="hidden" name="cmd" value="_s-xclick">
+
+      <input type="hidden" name="hosted_button_id" value="221">
+
+      <input type="image" name="submit"
+        src="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif"
+        alt="PayPal - The safer, easier way to pay online">
+      <img alt="" width="1" height="1"
+        src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" >
+
+    </form>
+-->
+
+    <p>Checkout button</p>
+    <div id="paypal-button-container">
+    </div>
+
+  </body>
+
+
+<script src="https://www.paypalobjects.com/api/checkout.js"></script>
+<script type="text/javascript">
+
+// var obj = {
+//         "item" : "Pargo",
+//         "qty" : "3",
+//         "presentation" : "kilo(s)"
+//         }
+//
+// // console.log(obj);
+// // var s = JSON.stringify(obj);
+//
+// console.log(typeof(obj) === "json");
+
+var user = {
+    first_name: "Sammy",
+    last_name : "Shark",
+    online    : true,
+    full_name : function() {
+       return this.first_name + " " + this.last_name;
+    }
+};
+
+// var s = JSON.stringify(user);
+// console.log("js " + user);
+// console.log("json " + s);
+//
+//
+//
+// var user_profile = {
+//   "username" : "SammyShark",
+//   "social_media" : [
+//     {
+//       "description" : "twitter",
+//       "link" : "https://twitter.com/digitalocean"
+//     },
+//     {
+//       "description" : "facebook",
+//       "link" : "https://www.facebook.com/DigitalOceanCloudHosting"
+//     },
+//     {
+//       "description" : "github",
+//       "link" : "https://github.com/digitalocean"
+//     }
+//   ]
+// }
+//
+// console.log(user_profile.username);
+//
+// user_profile.social_media[0].description = "google";
+// console.log(user_profile)
+// paypal
+  // paypal.Button.render({
+  //   // Configure environment
+  //   env: 'sandbox',
+  //   client: {
+  //     sandbox: 'AVV0jYy0l7F-PURBELwpphAGT25Zf9SmJ4LH0Zdwr_dtoJWRgYmHS0pUJ2OQ7RQmrmfg2W6IuRoq8WZN',
+  //     production: 'demo_production_client_id'
+  //   },
+  //   // Customize button (optional)
+  //   locale: 'es_CR',
+  //   style: {
+  //     size: 'small',
+  //     color: 'gold',
+  //     shape: 'rect',
+  //
+  //   },
+  //
+  //   // Enable Pay Now checkout flow (optional)
+  //   commit: true,
+  //
+  //   // Set up a payment
+  //   // Set up a payment
+  //   payment: function(data, actions) {
+  //     return actions.payment.create({
+  //       transactions: [{
+  //         amount: {
+  //           total: '30.11',
+  //           currency: 'USD',
+  //           details: {
+  //             subtotal: '30.00',
+  //             tax: '0.07',
+  //             shipping: '0.03',
+  //             handling_fee: '1.00',
+  //             shipping_discount: '-1.00',
+  //             insurance: '0.01'
+  //           }
+  //         },
+  //         description: 'The payment transaction description.',
+  //         custom: '90048630024435',
+  //         //invoice_number: '12345', Insert a unique invoice number
+  //         payment_options: {
+  //           allowed_payment_method: 'INSTANT_FUNDING_SOURCE'
+  //         },
+  //         soft_descriptor: 'ECHI5786786',
+  //         item_list: {
+  //           items: [
+  //           {
+  //             name: 'hat',
+  //             description: 'Brown hat.',
+  //             quantity: '5',
+  //             price: '3',
+  //             tax: '0.01',
+  //             sku: '1',
+  //             currency: 'USD'
+  //           },
+  //           {
+  //             name: 'handbag',
+  //             description: 'Black handbag.',
+  //             quantity: '1',
+  //             price: '15',
+  //             tax: '0.02',
+  //             sku: 'product34',
+  //             currency: 'USD'
+  //           }],
+  //           shipping_address: {
+  //             recipient_name: 'Roxana Maria',
+  //             line1: '4th Floor',
+  //             line2: 'Unit #34',
+  //             city: 'Cobano',
+  //             country_code: 'CR',
+  //             postal_code: '95131',
+  //             phone: '87211412',
+  //             state: 'PU'
+  //           }
+  //         }
+  //       }],
+  //       note_to_payer: 'Contact us for any questions on your order.'
+  //     });
+  //   },
+  //   // Execute the payment
+  //   onAuthorize: function(data, actions) {
+  //     return actions.payment.execute().then(function() {
+  //       // Show a confirmation message to the buyer
+  //       $.alert({
+  //         title: 'Listo!',
+  //         content: 'Gracias por su compra!',
+  //         theme: 'modern'
+  //       });
+  //       window.href = "" ;
+  //     });
+  //   }
+  // }, '#paypal-button');
+
+transactions = [
+  {
+    amount: {
+      total: '1',
+      currency: 'USD'
+    }
+  }
+]
+
+//       transactions: [
+//         {
+//           amount: {
+//             total: '1.00',
+//             currency: 'USD'
+//           }
+//         }
+//       ]
+
+
+  // Render the PayPal button
+  paypal.Button.render({
+  // Set your environment
+  env: 'sandbox', // sandbox | production
+
+  // Specify the style of the button
+  style: {
+    layout: 'vertical',  // horizontal | vertical
+    size:   'responsive',    // medium | large | responsive
+    shape:  'pill',      // pill | rect
+    color:  'gold'       // gold | blue | silver | white | black
+  },
+
+  // Specify allowed and disallowed funding sources
+  //
+  // Options:
+  // - paypal.FUNDING.CARD
+  // - paypal.FUNDING.CREDIT
+  // - paypal.FUNDING.ELV
+  funding: {
+    allowed: [
+      paypal.FUNDING.CARD,
+      // paypal.FUNDING.CREDIT
+    ],
+    disallowed: [
+      paypal.FUNDING.CREDIT,
+      paypal.FUNDING.ELV
+    ]
+  },
+
+  // Enable Pay Now checkout flow (optional)
+  commit: true,
+
+  // PayPal Client IDs - replace with your own
+  // Create a PayPal app: https://developer.paypal.com/developer/applications/create
+  client: {
+    sandbox: 'AVV0jYy0l7F-PURBELwpphAGT25Zf9SmJ4LH0Zdwr_dtoJWRgYmHS0pUJ2OQ7RQmrmfg2W6IuRoq8WZN',
+    production: '<insert production client id>'
+  },
+
+
+  payment: function (data, actions) {
+    return actions.payment.create({
+      payment: transactions
+    });
+  },
+
+    onAuthorize: function (data, actions) {
+      return actions.payment.execute()
+        .then(function () {
+            $.alert({
+              title: 'Listo!',
+              content: 'Gracias por su compra!',
+              theme: 'modern'
+            });
+      //       window.href = "" ;
+        });
+    }
+  }, '#paypal-button-container');
+
+</script>
+
+</html>

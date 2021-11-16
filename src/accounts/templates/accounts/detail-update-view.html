@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<div class='col-12 col-md-6 mx-auto my-3'>
+{% if title %}<h1 class='my-3'>{{ title }}</h1>{% endif %}
+<h3 class="my-3">Información Personal</h3>
+<hr/>
+<form method='POST' action='{% if action_url %}{{ action_url }}{% endif %}'> {% csrf_token %}
+    {% if next_url %}
+    <input type='hidden' name='next' value='{{ next_url }}' />
+    {% endif %}
+  {{ form.as_p }}
+  <label for="email">Correo</label>
+  <input type="text" id="email" class="form-control disabled" disabled='disabled' value='{{ request.user.email }}'/>
+  <span class='help-text'>No se puede cambiar el correo
+  </span><br/>
+  <button type='submit' class='btn btn-primary my-3'>Guardar</button>
+  <a href="{% url 'password_change' %}">Cambiar Contraseña</a>
+</form>
+</div>
+{% endblock %}

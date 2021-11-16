@@ -1,0 +1,27 @@
+
+
+<div class="card" style="width: 20rem;">
+  {{ cart }}
+  {% for item in cart.cartitem_set.all %}
+    {{ item }} {{ item.quantity }} <br/>
+  {% endfor %}
+
+  {% if instance.image %}
+    <a href="{{ instance.get_absolute_url }}">
+      <img class="card-img-top" src="{{ instance.image.url }}" alt="{{ instance.title }} logo">
+    </a>
+  {% endif %}
+
+  <div class="card-body">
+    <h4 class="card-title">{{ instance.title }}</h4>
+    <p class="card-text">{{ instance.description|linebreaks|truncatewords:14 }}</p>
+
+    {% if price == True %}
+    <h4 id="priceCard">&#8353;{{ instance.price }} {{ instance.presentation }}</h4>
+    <div class='text-center'>
+        <a href="{{ instance.get_absolute_url }}" class="btn btn-primary my-2">Ver más...</a>
+        {% include 'products/snippets/update-cart.html' with product=instance cart=cart %}
+    </div>
+    {% endif %}
+  </div>
+</div>
